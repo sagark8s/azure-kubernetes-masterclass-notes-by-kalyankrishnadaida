@@ -1,0 +1,61 @@
+Pod:
+kubectl run my-first-pod --image stacksimplify/kubenginx:1.0.0
+kubectl delete pod my-first-pod
+kubectl get pods   , kubectl get pods -o wide  , kubectl get po
+kubectl describe pod my-first-pod 
+kubectl logs my-first-pod  , kubectl logs -f my-first-pod
+kubectl get pod my-first-pod -o yaml 
+kubectl exec -it my-first-pod -- /bin/bash
+
+
+Service/Svc:
+kubectl get service  , kubectl get svc
+kubectl delete svc my-first-service
+kubectl describe service my-first-service
+kubectl logs my-first-service  , kubectl logs -f my-first-service
+kubectl expose pod my-first-pod --type=LoadBalancer --port=80 --name=my-first-service
+kubectl get service my-first-service -o yaml  
+
+
+ReplicaSets:
+kubectl get replicaset  ,  kubectl get rs
+kubectl describe rs my-helloworld-rs
+
+
+Deployment:
+         a) Creating Deployment
+            kubectl create deployment my-first-deployment --image=stacksimplify/kubenginx:1.0.0 
+            kubectl get deployments  ,  kubectl get deploy  ,  kubectl get po
+            kubectl describe deployment my-first-deployment
+
+        b)  Scaling Deployment
+            kubectl scale --replicas=10 deployment/my-first-deployment
+            kubectl scale --replicas=2 deployment/my-first-deployment
+            kubectl expose deployment my-first-deployment --type=LoadBalancer --port=80 --target-port=80 --name=my-first-deployment-service 
+            kubectl get deploy  ,  kubectl get rs  ,  kubectl get po  , kubectl get svc  ,  kubectl get all
+
+        c) Updating Deployment:
+           kubectl get deployment my-first-deployment -o yaml
+           kubectl set image deployment/my-first-deployment kubenginx=stacksimplify/kubenginx:2.0.0 --record=true
+           kubectl rollout status deployment/my-first-deployment
+           kubectl rollout history deployment/my-first-deployment
+           kubectl edit deployment/my-first-deployment --record=true
+           change - image: stacksimplify/kubenginx:2.0.0 to - image: stacksimplify/kubenginx:3.0.0
+           kubectl get deploy  ,  kubectl describe deployment my-first-deployment  ,  kubectl get po  , kubectl get svc
+
+        d) Rollback Deployment
+           kubectl rollout history deployment/my-first-deployment
+           kubectl rollout history deployment/my-first-deployment --revision=1
+           kubectl rollout history deployment/my-first-deployment --revision=2
+
+           kubectl rollout undo deployment/my-first-deployment
+           kubectl rollout undo deployment/my-first-deployment --to-revision=3
+           kubectl rollout restart deployment/my-first-deployment
+
+        e) Pausing & Resuming Deployments
+           kubectl rollout history deployment/my-first-deployment 
+           kubectl rollout pause deployment/my-first-deployment
+           kubectl set image deployment/my-first-deployment kubenginx=stacksimplify/kubenginx:4.0.0 --record=true
+           kubectl set resources deployment/my-first-deployment -c=kubenginx --limits=cpu=20m,memory=30Mi
+           kubectl rollout resume deployment/my-first-deployment
+           kubectl delete deployment my-first-deployment  ,  kubectl delete svc my-first-deployment
