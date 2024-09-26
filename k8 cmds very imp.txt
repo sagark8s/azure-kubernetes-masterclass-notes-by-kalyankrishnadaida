@@ -1,5 +1,5 @@
 Integrating Azure Container Registry (ACR) with Azure Kubernetes Service (AKS)
-az acr login --name containerregistry1z
+az acr login -n containerregistry1z --expose-token
 az aks update --resource-group rg-aks2-with-acr --name k890k8 --attach-acr containerregistry1z
 
 Pod:
