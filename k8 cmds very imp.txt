@@ -1,3 +1,7 @@
+Integrating Azure Container Registry (ACR) with Azure Kubernetes Service (AKS)
+az acr login --name containerregistry1z
+az aks update --resource-group rg-aks2-with-acr --name k890k8 --attach-acr containerregistry1z
+
 Pod:
 kubectl run my-first-pod --image stacksimplify/kubenginx:1.0.0
 kubectl delete pod my-first-pod
