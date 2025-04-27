@@ -11,7 +11,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     name       = "systempool"
     vm_size    = "Standard_DS2_v2"
     orchestrator_version = data.azurerm_kubernetes_service_versions.current.latest_version
-    availability_zones   = [1, 2, 3]
+    zones   = [1, 2, 3]
     enable_auto_scaling  = true
     max_count            = 3
     min_count            = 1
@@ -68,8 +68,10 @@ linux_profile {
 
 # Network Profile
 network_profile {
-  load_balancer_sku = "Standard"
+  load_balancer_sku = "standard"
   network_plugin = "azure"
+  service_cidr       = "10.1.0.0/16"    # <-- Different from your subnet 10.0.0.0/16
+  dns_service_ip     = "10.1.0.10"      # <-- Must be inside service_cidr range
 }
 
 # AKS Cluster Tags 
